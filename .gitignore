@@ -1,0 +1,8 @@
+__pycache__/*
+.pytest_cache/*
+*.pyc
+3d_game_using_pygame_GitHubToken.txt
+venv/
+.git/*
+.vscode/*
+
