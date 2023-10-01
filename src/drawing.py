@@ -10,14 +10,22 @@ class Drawing:
     def __init__(self, sc, sc_map):
         self.sc = sc
         self.sc_map = sc_map
-        self.font = pygame.font.SysFont('Arial', 36, bold=True)
+        self.font = pygame.font.SysFont("Arial", 36, bold=True)
+        self.textures = {
+            "1": pygame.image.load('img/1.png').convert(),
+            "2": pygame.image.load('img/2.png').convert(),
+            "S": pygame.image.load('img/sky.png').convert()
+        }
 
-    def background(self):
-        pygame.draw.rect(self.sc, settings.SKYBLUE, (0, 0, settings.WIDTH, settings.HALF_HEIGHT))
+    def background(self, angle):
+        sky_offset = -5 * math.degrees(angle) % settings.WIDTH
+        self.sc.blit(self.textures["S"], (sky_offset, 0))
+        self.sc.blit(self.textures["S"], (sky_offset - settings.WIDTH, 0))
+        self.sc.blit(self.textures["S"], (sky_offset + settings.WIDTH, 0))
         pygame.draw.rect(self.sc, settings.DARKGRAY, (0, settings.HALF_HEIGHT, settings.WIDTH, settings.HALF_HEIGHT))
 
     def world(self, player_pos, player_angle):
-        ray_casting(self.sc, player_pos, player_angle)
+        ray_casting(self.sc, player_pos, player_angle, self.textures)
 
     def fps(self, clock):
         display_fps = str(int(clock.get_fps()))
@@ -32,5 +40,5 @@ class Drawing:
                                                  map_y + 12 * math.sin(player.angle)), 2)
         pygame.draw.circle(self.sc_map, settings.RED, (int(map_x), int(map_y)), 5)
         for x, y in mini_map:
-            pygame.draw.rect(self.sc_map, settings.GREEN, (x, y, settings.MAP_TILE, settings.MAP_TILE))
+            pygame.draw.rect(self.sc_map, settings.SUNDAY, (x, y, settings.MAP_TILE, settings.MAP_TILE))
         self.sc.blit(self.sc_map, settings.MAP_POS)
