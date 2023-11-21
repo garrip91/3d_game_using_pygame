@@ -1,15 +1,15 @@
+import math
 import pygame
 import settings
-import math
 
 
 class Sprites:
-
+    
     def __init__(self):
         self.sprite_types = {
             "barrel": pygame.image.load("sprites/barrel/0.png").convert_alpha(),
             "pedestal": pygame.image.load("sprites/pedestal/0.png").convert_alpha(),
-            "devil": [pygame.image.load(f"sprites/devil/{i}.png") for i in range(8)]
+            "devil": [pygame.image.load(f"sprites/devil/{i}.png").convert_alpha() for i in range(8)]
         }
         self.list_of_objects = [
             SpriteObject(self.sprite_types["barrel"], True, (7.1, 2.1), 1.8, 0.4),
@@ -21,7 +21,7 @@ class Sprites:
 
 
 class SpriteObject:
-
+    
     def __init__(self, object, static, pos, shift, scale):
         self.object = object
         self.static = static
@@ -32,27 +32,27 @@ class SpriteObject:
         if not static:
             self.sprite_angles = [frozenset(range(i, i + 45)) for i in range(0, 360, 45)]
             self.sprite_positions = {angle: pos for angle, pos in zip(self.sprite_angles, self.object)}
-    
+
     def object_locate(self, player, walls):
         fake_walls0 = [walls[0] for i in range(settings.FAKE_RAYS)]
         fake_walls1 = [walls[-1] for i in range(settings.FAKE_RAYS)]
         fake_walls = fake_walls0 + walls + fake_walls1
-        
+
         dx, dy = self.x - player.x, self.y - player.y
-        distance_to_sprite = math.sqrt(dx**2 + dy**2)
+        distance_to_sprite = math.sqrt(dx ** 2 + dy ** 2)
 
         theta = math.atan2(dy, dx)
         gamma = theta - player.angle
         if dx > 0 and 180 <= math.degrees(player.angle) <= 360 or dx < 0 and dy < 0:
             gamma += settings.DOUBLE_PI
-        
+
         delta_rays = int(gamma / settings.DELTA_ANGLE)
         current_ray = settings.CENTER_RAY + delta_rays
         distance_to_sprite *= math.cos(settings.HALF_FOV - current_ray * settings.DELTA_ANGLE)
 
         fake_ray = current_ray + settings.FAKE_RAYS
         if 0 <= fake_ray <= settings.NUM_RAYS - 1 + 2 * settings.FAKE_RAYS and distance_to_sprite < fake_walls[fake_ray][0]:
-            proj_height = int(settings.PROJ_COEFF / distance_to_sprite * self.scale)
+            proj_height = min(int(settings.PROJ_COEFF / distance_to_sprite * self.scale), 2 * settings.HEIGHT)
             half_proj_height = proj_height // 2
             shift = half_proj_height * self.shift
 

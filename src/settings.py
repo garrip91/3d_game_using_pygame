@@ -26,7 +26,7 @@ PROJ_COEFF = 3 * DIST * TILE
 SCALE = WIDTH // NUM_RAYS
 
 # sprite settings:
-DOUBLE_PI = 2 * math.pi
+DOUBLE_PI = math.pi * 2
 CENTER_RAY = NUM_RAYS // 2 - 1
 FAKE_RAYS = 100
 

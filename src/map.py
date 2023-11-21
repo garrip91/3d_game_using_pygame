@@ -20,5 +20,5 @@ for j, row in enumerate(text_map):
             mini_map.add((i * settings.MAP_TILE, j * settings.MAP_TILE))
             if char == "1":
                 world_map[(i * settings.TILE, j * settings.TILE)] = "1"
-            elif char == '2':
-                world_map[(i * settings.TILE, j * settings.TILE)] = "1"
+            elif char == "2":
+                world_map[(i * settings.TILE, j * settings.TILE)] = "2"

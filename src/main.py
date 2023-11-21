@@ -27,7 +27,7 @@ while True:
     walls = ray_casting(player, drawing.textures)
     drawing.world(walls + [obj.object_locate(player, walls) for obj in sprites.list_of_objects])
     drawing.fps(clock)
-    drawing.mini_map(player)
+    # drawing.mini_map(player)
 
     pygame.display.flip()
     clock.tick()

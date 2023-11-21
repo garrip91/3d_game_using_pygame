@@ -1,8 +1,8 @@
+import math
 import pygame
 import settings
 from ray_casting import ray_casting
 from map import mini_map
-import math
 
 
 class Drawing:
@@ -10,12 +10,11 @@ class Drawing:
     def __init__(self, sc, sc_map):
         self.sc = sc
         self.sc_map = sc_map
-        self.font = pygame.font.SysFont("Arial", 36, bold=True)
-        self.textures = {
-            "1": pygame.image.load('img/wall1.png').convert(),
-            "2": pygame.image.load('img/wall2.png').convert(),
-            "S": pygame.image.load('img/sky3.png').convert()
-        }
+        self.font = pygame.font.SysFont('Arial', 36, bold=True)
+        self.textures = {"1": pygame.image.load("img/wall1.png").convert(),
+                         "2": pygame.image.load("img/wall2.png").convert(),
+                         "S": pygame.image.load("img/sky3.png").convert()
+                         }
 
     def background(self, angle):
         sky_offset = -10 * math.degrees(angle) % settings.WIDTH
@@ -36,7 +35,6 @@ class Drawing:
         self.sc.blit(render, settings.FPS_POS)
 
     def mini_map(self, player):
-        """show mini-map at display"""
         self.sc_map.fill(settings.BLACK)
         map_x, map_y = player.x // settings.MAP_SCALE, player.y // settings.MAP_SCALE
         pygame.draw.line(self.sc_map, settings.YELLOW, (map_x, map_y), (map_x + 12 * math.cos(player.angle),

@@ -1,7 +1,7 @@
+import math
 import pygame
 import settings
 from map import world_map
-import math
 
 
 def mapping(a, b):
@@ -47,12 +47,11 @@ def ray_casting(player, textures):
         depth *= math.cos(player.angle - cur_angle)
         depth = max(depth, 0.00001)
         proj_height = min(int(settings.PROJ_COEFF / depth), 2 * settings.HEIGHT)
-        
+
         wall_column = textures[texture].subsurface(offset * settings.TEXTURE_SCALE, 0, settings.TEXTURE_SCALE, settings.TEXTURE_HEIGHT)
         wall_column = pygame.transform.scale(wall_column, (settings.SCALE, proj_height))
         wall_pos = (ray * settings.SCALE, settings.HALF_HEIGHT - proj_height // 2)
 
         walls.append((depth, wall_column, wall_pos))
         cur_angle += settings.DELTA_ANGLE
-    
     return walls
