@@ -8,7 +8,8 @@ from drawing import Drawing
 
 pygame.init()
 sc = pygame.display.set_mode((settings.WIDTH, settings.HEIGHT))
-sc_map = pygame.Surface((settings.WIDTH // settings.MAP_SCALE, settings.HEIGHT // settings.MAP_SCALE))
+pygame.mouse.set_visible(False)
+sc_map = pygame.Surface(settings.MINIMAP_RES)
 
 sprites = sprite_objects.Sprites()
 clock = pygame.time.Clock()
@@ -25,9 +26,8 @@ while True:
 
     drawing.background(player.angle)
     walls = ray_casting(player, drawing.textures)
-    drawing.world(walls + [obj.object_locate(player, walls) for obj in sprites.list_of_objects])
+    drawing.world(walls + [obj.object_locate(player) for obj in sprites.list_of_objects])
     drawing.fps(clock)
-    # drawing.mini_map(player)
 
     pygame.display.flip()
     clock.tick()
